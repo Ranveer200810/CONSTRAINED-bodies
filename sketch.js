@@ -7,7 +7,7 @@ var engine, world;
 var box1, pig1;
 var backgroundImg,platform;
 var newLog;
-var chain;
+var slingshot;
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
@@ -40,7 +40,8 @@ function setup(){
 
     bird = new Bird(100,100);
 
-    chain = new Chain(bird.body, newLog.body);
+    //point should be passed in the form of a json format (curly brackets)....
+    slingshot = new Slingshot(bird.body, {x: 200, y: 100});
 
 }
 
@@ -68,6 +69,23 @@ function draw(){
     bird.display();
     platform.display();
     newLog.display();
-    chain.display();
+    slingshot.display();
 
-}
+};
+
+//mouseDragged is an event function, automatically called when mouse is dragged.....
+function mouseDragged() {
+
+    console.log("dragged");
+
+    //this function is used to set the position of any physics body (bird)....
+    Matter.Body.setPosition(bird.body, {x: mouseX, y: mouseY});
+
+};
+
+//mouseReleased is an event function, automatically called when mouse is released after dragging/click.....
+function mouseReleased() {
+
+    slingshot.fly();
+
+};
